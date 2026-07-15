@@ -1,42 +1,39 @@
 @extends('layouts.app')
-
-@section('title', 'Profil ' . $mahasiswa['nama'])
-
+@section('title', 'Daftar Mahasiswa')
 @section('content')
 
-{{-- Header Profil --}}
-<div style='background:#065A82;color:white;padding:28px;border-radius:10px;
-            text-align:center;margin-bottom:20px;'>
-    <h1>{{ $mahasiswa['nama'] }}</h1>
-    <p>{{ $mahasiswa['prodi'] }} &bull; Angkatan {{ $mahasiswa['angkatan'] }}</p>
-    @if($mahasiswa['ipk'] >= 3.75)
-        <span style='background:#21B0A7;padding:4px 14px;border-radius:20px;
-                     font-size:13px;font-weight:bold;'>Cumlaude ⭐</span>
-    @else
-        <span style='background:#1C7293;padding:4px 14px;border-radius:20px;
-                     font-size:13px;'>Sangat Memuaskan</span>
-    @endif
-</div>
+<h1 style='color:#0B1F3A;margin-bottom:20px;'>
+    Daftar Mahasiswa Informatika
+    <span style='font-size:14px;color:#666;font-weight:normal;'>
+        ({{ $mahasiswas->count() }} mahasiswa)</span>
+</h1>
 
-{{-- Info Detail --}}
-<div style='background:white;padding:20px;border-radius:8px;
-            border:1px solid #ddd;margin-bottom:16px;'>
-    <h2 style='color:#065A82;margin-bottom:12px;'>Informasi</h2>
-    <p><strong>NIM:</strong> {{ $mahasiswa['nim'] }}</p>
-    <p><strong>IPK:</strong> {{ $mahasiswa['ipk'] }}</p>
-    <p><strong>Email:</strong> {{ $mahasiswa['email'] }}</p>
-    <p><strong>GitHub:</strong> {{ $mahasiswa['github'] }}</p>
-    <p style='margin-top:10px;'>{{ $mahasiswa['bio'] }}</p>
-</div>
-
-{{-- Skill --}}
-<div style='background:white;padding:20px;border-radius:8px;border:1px solid #ddd;'>
-    <h2 style='color:#065A82;margin-bottom:12px;'>Skill</h2>
-    @foreach($mahasiswa['skill'] as $skill)
-        <span style='background:#065A82;color:white;padding:5px 14px;
-                     border-radius:16px;margin:3px;display:inline-block;
-                     font-size:13px;'>{{ $skill }}</span>
-    @endforeach
-</div>
+@foreach($mahasiswas as $mhs)
+    <div style='background:white;border-radius:10px;padding:20px;
+                margin-bottom:16px;border-left:4px solid #065A82;
+                box-shadow:0 2px 6px rgba(0,0,0,.08);'>
+        <div style='display:flex;justify-content:space-between;align-items:center;'>
+            <div>
+                <h3 style='color:#0B1F3A;margin:0;'>{{ $mhs->nama }}</h3>
+                <p style='color:#666;margin:4px 0;font-size:14px;'>
+                    {{ $mhs->nim }} • {{ $mhs->prodi }} {{ $mhs->angkatan }}</p>
+            </div>
+            <div style='text-align:right;'>
+                <div style='font-size:22px;font-weight:bold;color:#065A82;'>
+                    {{ $mhs->ipk }}</div>
+                @if($mhs->ipk >= 3.75)
+                    <span style='background:#21B0A7;color:white;padding:2px 10px;
+                                 border-radius:12px;font-size:12px;'>Cumlaude</span>
+                @endif
+            </div>
+        </div>
+        @if($mhs->bio)
+            <p style='color:#555;margin-top:10px;font-size:14px;'>{{ $mhs->bio }}</p>
+        @endif
+        <a href="{{ route('mahasiswa.show', $mhs->id) }}"
+           style='color:#065A82;font-size:13px;text-decoration:none;'>
+            Lihat Detail →</a>
+    </div>
+@endforeach
 
 @endsection

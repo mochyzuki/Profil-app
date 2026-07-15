@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mahasiswa;   // Import Model
+
 class ProfilController extends Controller
 {
     public function index()
     {
-        $mahasiswa = [
-            'nama'     => 'Muhammad rizal Chaerul Syahputra',
-            'nim'      => '3337250103',
-            'prodi'    => 'Informatika',
-            'angkatan' => 2025,
-            'ipk'      => 4.00,
-            'email'    => 'rizalchaeruls.rs@gmail.com',
-            'github'   => 'github.com/mochyzuki',
-            'skill'    => ['HTML', 'CSS', 'JavaScript', 'PHP', 'Laravel', 'Git'],
-            'bio'      => 'Mahasiswa Informatika UNTIRTA yang semangat belajar.',
-        ];
+        // SEBELUM (hapus ini):
+        // $mahasiswas = [['nama'=>'Budi',...], ...];
 
-        return view('profil', compact('mahasiswa'));
+        // SESUDAH: ambil dari database, urutkan IPK tertinggi dulu
+        $mahasiswas = Mahasiswa::orderBy('ipk', 'desc')->get();
+
+        return view('profil', compact('mahasiswas'));
+    }
+
+    // Method baru untuk halaman detail satu mahasiswa
+    public function show($id)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        return view('profil-detail', compact('mahasiswa'));
     }
 }
