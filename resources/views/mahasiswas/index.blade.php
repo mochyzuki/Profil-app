@@ -20,20 +20,25 @@
             <span style='color:#065A82;margin-left:8px;font-weight:bold;'>IPK: {{ $mhs->ipk }}</span>
         </div>
         <div style='display:flex;gap:8px;'>
-            <a href="{{ route('mahasiswas.edit', $mhs->id) }}"
-               style='background:#6D28D9;color:white;padding:6px 14px;
-                      border-radius:5px;text-decoration:none;font-size:13px;'>Edit</a>
+            @if($mhs->user_id === auth()->id())
+                <a href="{{ route('mahasiswas.edit', $mhs->id) }}"
+                   style='background:#6D28D9;color:white;padding:6px 14px;
+                          border-radius:5px;text-decoration:none;font-size:13px;'>Edit</a>
 
-            <form method='POST'
-                  action="{{ route('mahasiswas.destroy', $mhs->id) }}">
-                @csrf
-                @method('DELETE')
-                <button type='submit'
-                        onclick="return confirm('Hapus {{ $mhs->nama }}?')"
-                        style='background:#DC2626;color:white;padding:6px 14px;
-                               border:none;border-radius:5px;cursor:pointer;font-size:13px;'>
-                    Hapus</button>
-            </form>
+                <form method='POST'
+                      action="{{ route('mahasiswas.destroy', $mhs->id) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type='submit'
+                            onclick="return confirm('Hapus {{ $mhs->nama }}?')"
+                            style='background:#DC2626;color:white;padding:6px 14px;
+                                   border:none;border-radius:5px;cursor:pointer;font-size:13px;'>
+                        Hapus</button>
+                </form>
+            @else
+                <span style='color:#999;font-size:13px;padding:6px;'>
+                    (Data orang lain)</span>
+            @endif
         </div>
     </div>
 @endforeach
