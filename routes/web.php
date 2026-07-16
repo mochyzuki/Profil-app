@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\TentangController;
+use App\Http\Controllers\MahasiswaController;
 
 // Route bawaan Laravel (biarkan tetap ada)
 Route::get('/', function () {
@@ -18,3 +19,5 @@ Route::get('/tentang', [TentangController::class, 'index'])
 
      Route::get('/mahasiswa/{id}', [ProfilController::class, 'show'])
      ->name('mahasiswa.show');
+     
+Route::resource('mahasiswas', MahasiswaController::class);
